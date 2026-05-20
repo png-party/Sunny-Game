@@ -1,0 +1,29 @@
+-Sunny pet game
+==Classes==
+Game manager:
+instance vars:
+tuple achievements
+-Game save
+--Write stats/progress/achievements to file
+
+
+Sunny
+Instance vars:
+health, hunger, energy, skill, happiness
+-Unlock a new game when leveling up skill
+
+
+Main menu:
+-Play minigame
+-Feed
+-Collectibles for earning achievements
+-Click to interact (plays animation)
+
+Minigame
+-Update stats at the end
+-Churu clicking game
+-Toy catching game
+-Can win or lose
+
+Game save
+-Write stats/progress to file
