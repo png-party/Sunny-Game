@@ -142,3 +142,9 @@ Extra stuff to add:
 ---Churu lick (too much)
 ---Churu lick (perfect)
 ---Churu lick (too little)
+
+
+Component class
+-Instance variables
+-Member functions/event handlers
+--invoke a delegate pertaining to that function
