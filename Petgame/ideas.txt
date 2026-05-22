@@ -1,29 +1,143 @@
--Sunny pet game
+Sunny pet game
 ==Classes==
 Game manager:
 instance vars:
 tuple achievements
--Game save
---Write stats/progress/achievements to file
+(name, completed)
+sunny obj
 
+Win/loss: show on stats bars for ranges to win
+Win conditions:
+Happiness: 95
+HP: 80
+
+Lose conditions:
+--HP: <20
+--Energy: =100
+--Happiness: <15
+
+Achievements
+-0: Complete a maze in less than 20 seconds
+-1: Reach happiness level 80
+-2: Catch 4 balls in one game
 
 Sunny
-Instance vars:
-health, hunger, energy, skill, happiness
--Unlock a new game when leveling up skill
+==Instance vars==
+health, energy, happiness
+*Default state*
+--HP: 50
+--Energy: 50
+--Happiness: 20
+--Statuses:
+-Happiness loss from energy
+-Happiness goes down quadratically (1, 2, 4, 8) when energy is too high, <=85
+-Recent games being churu
+-HP loss increased
+-Can't give food when hunger is over 90
+--Adds a churu debuff, where each time you lose HP it's decreased by the (churu count - 2)
+-Gain 25% less happiness when HP below 30
+
+Food items:
+--Dry food
+---HP: 10
+---Energy: 15
+---Happiness: -3
+
+--Catnip
+---HP: -5
+---Energy: -5
+---Happiness: 8
+
+--Wet food
+---HP: 6
+---Happiness: 4
+---Energy: 9
 
 
-Main menu:
+==Main menu==
 -Play minigame
+--Select maze, ball,
 -Feed
--Collectibles for earning achievements
 -Click to interact (plays animation)
+--10% chance his happiness goes up when you click on him
 
-Minigame
--Update stats at the end
--Churu clicking game
--Toy catching game
--Can win or lose
 
-Game save
--Write stats/progress to file
+==Game Class=
+-Energy diff
+-Churu count
+
+--All games:
+--Recent games list: track recent 10, 0's for non-churu, 1s for churu
+--If the 10th slot is churu, playing any other games will decrease churu count
+--Any game of churu will increase churu count, but only gets decreased when the 10th slot is churu at game end
+--Adds a churu debuff, where each time you lose HP it's decreased by the (churu count - 2)
+--Churu count = 10, game ends (gluttony ending)
+
+==Toy catching game==
+-Energy diff: -3
+Win: Happiness: 8
+Lose: Happiness: -3
+-Start with 5 balls to throw
+-Click button to throw, 60/40% chance of catching/missing
+-Catches: 2 happiness, 60%
+-Misses: -1 happiness, 40% 
+-Hit: -3 HP, 10% chance
+
+==Maze==
+--Energy diff: -10
+-Win: Happiness: 15
+-Lose: Happiness: -8
+--Timer for winning/losing, affecting skill and happiness
+--Use WASD for navigation
+--Map is revealed for a few seconds
+--Counter to get to the mouse 
+-pick up an object like a cheese to reveal the location of the mouse
+-one cheese spawns near the beginning
+-Sense bar that lets you know if you're getting closer to the mouse
+
+Extra stuff to add:
+-randomize mouse position and sunny position on spawn as well as map orientation
+-Implementation
+-Background of the area you can travse
+
+==Churu==
+-Energy diff: 0
+-Win: Happiness: 4, HP: -1
+-Lose: Happiness: -6, HP: -3
+-Accuracy bar (for enough to come out), starts at 100
+-Key down determines how much comes out
+-Hold down longer than 3 sec, too much comes out
+-Hold down less than 2 sec, too little comes out
+-Subtract accuracy from the excess outside the range and multiply
+-Tube starts with a count 100 fullness, user can see meter
+-Game ends when tube is empty
+-Win or loss based on accuracy 
+-Lose: sunny threw up message
+
+==Game save==
+-Name your save file when starting a new game
+-Select save file at launch, keep them in a saves folder
+-Write stats/progress/achievements to file
+-Add a flag to save file if game is over/completed
+-Store 10 most recent games array
+
+==Sunny Game assets==
+-Icons: minigames, food, achievements
+==Sunny animations==
+--On interaction:
+---Question mark tail
+---Big stretch
+---Meow
+-Other menu states:
+---High energy animation
+---Low energy animation (sleepy, stops responding to interacting)
+--Maze animations:
+--Walk Y and X
+--Ball animations:
+---Catch ball
+---Miss ball
+---Hit by ball
+--Churu animations:
+---Churu lick (too much)
+---Churu lick (perfect)
+---Churu lick (too little)
