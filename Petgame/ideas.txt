@@ -8,7 +8,7 @@ sunny obj
 
 Win/loss: show on stats bars for ranges to win
 Win conditions:
-Happiness: 95
+-Happiness: 95
 HP: 80
 
 Lose conditions:
@@ -24,6 +24,7 @@ Achievements
 Sunny
 ==Instance vars==
 health, energy, happiness
+-recent games log
 *Default state*
 --HP: 50
 --Energy: 50
@@ -50,8 +51,8 @@ Food items:
 
 --Wet food
 ---HP: 6
----Happiness: 4
 ---Energy: 9
+---Happiness: 4
 
 
 ==Main menu==
