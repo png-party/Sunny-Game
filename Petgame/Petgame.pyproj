@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9a53a063-ccee-412c-aeea-3d3e0ec8b5b5</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Sunny.py</StartupFile>
+    <StartupFile>Game_Manager.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -31,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ideas.txt" />
+    <Content Include="Notes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
