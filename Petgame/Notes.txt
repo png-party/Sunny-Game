@@ -7,3 +7,17 @@ https://www.geeksforgeeks.org/python/singleton-pattern-in-python-a-complete-guid
 ==Data==
 Loading/saving data as json:
 https://www.geeksforgeeks.org/python/json-with-python/
+
+==GUI==
+The main game screen/surface:
+https://www.pygame.org/docs/ref/display.html
+Basic rectangle:
+https://www.pygame.org/docs/ref/rect.html
+UI containers:
+https://deepwiki.com/MyreMylar/pygame_gui/2.3-container-system
+Pretty much all of the gui elements:
+https://pygame-gui.readthedocs.io/en/latest/pygame_gui.elements.html
+
+==Game Engine==
+Gameplay loop:
+https://www.geeksforgeeks.org/python/how-to-set-up-the-game-loop-in-pyggame/
