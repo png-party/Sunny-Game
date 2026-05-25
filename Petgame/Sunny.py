@@ -1,5 +1,6 @@
 import json
 from Game_Event import GameEvent
+import Food
 class Sunny:
     def __init__(self, savedStats:dict=None):
         #if no saved stats exist, use an empty dict
@@ -78,7 +79,13 @@ class Sunny:
             self.on_happinessMin.invoke(self.happiness, newHappiness)
         return self.happiness
 
-    #Sends the pet's stats as a dict to the GM class so it can be saved as a json
+    def Feed(self, food:Food): #todo: only make it show/process relevant stats
+        print("Feeding sunny", food.name)
+        self.updateHealth(food.hp)
+        self.updateEnergy(food.energy)
+        self.updateHappiness(food.happiness)
+
+    #Sends Sunny's stats as a dict to the GM class so it can be saved as a json
     def getSave(self):
         return {
             "health": self.health,

@@ -24,3 +24,7 @@ https://www.geeksforgeeks.org/python/how-to-set-up-the-game-loop-in-pyggame/
 Delta time:
 https://learn.yorkcs.com/2019/10/15/pygame-basics-an-improved-game-loop/
 https://www.youtube.com/watch?v=v_linpA7uXo
+Getting input events:
+https://www.geeksforgeeks.org/python/pygame-input-handling/
+Getting GUI events:
+https://pygame-gui.readthedocs.io/en/v_069/events.html

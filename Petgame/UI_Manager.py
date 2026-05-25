@@ -1,7 +1,7 @@
 import pygame
 import pygame_gui
 import Events_System #get all of the global delegates
-from UI_Screens import MainMenu, Home, BallGame
+from UI_Screens import MainMenu, Home, BallGame, Kitchen
 from Sunny import Sunny
 """
 Acts like a wrapper class for pygame_gui's UIManager object
@@ -17,6 +17,7 @@ class UIManager:
         self.screens = {
             "mainMenu": MainMenu(self.gui),
             "home": Home(self.gui, pet),
+             "kitchen": Kitchen(self.gui, pet),
             "ballGame": BallGame(self.gui, pet)
             }
         #Start with the main menu
@@ -40,6 +41,7 @@ class UIManager:
         self.currentScreen.hide() #hide old screen
         self.currentScreen = self.screens[newScreen] #todo: add input validation
         self.currentScreen.show() #show new screen
+        print(self.currentScreen.name)
 
     #Only draw the current active screen selected by the ui manager onto the main game surface
     def draw(self, gameSurface:pygame.Surface):

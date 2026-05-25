@@ -26,8 +26,8 @@ class MainMenu(BasicScreen): #inherit the container,hide, and show from basic sc
         
         self.startButton = graphics.UIButton(relative_rect=pygame.Rect(20,30,400,300),
                                             text="start",
-                                            manager=gui,
-                                            container=self.container)
+                                            container=self.container,
+                                            manager=gui)
         self.sentence = graphics.UILabel(relative_rect=pygame.Rect(0,0, 200,300), 
                                          text="testtest", 
                                          container=self.container, 
@@ -41,17 +41,46 @@ class MainMenu(BasicScreen): #inherit the container,hide, and show from basic sc
                 Events_System.on_screen_switch.invoke("home")
     
 
-
 class Home(BasicScreen):
     def __init__(self, gui, pet:Sunny):
         print("Creating home screen...")
         super().__init__(gui, "Home Screen")
+        self.foodButton = graphics.UIButton(relative_rect=pygame.Rect(25, 25, 20, 50),
+                                            text="Visit kitchen",
+                                            container=self.container,
+                                            manager=gui)
+        self.gameButton = graphics.UIButton(relative_rect=pygame.Rect(75, 75, 20, 50),
+                                            text="Play catch",
+                                            container=self.container,
+                                            manager=gui)
+        self.mainMenuButton = graphics.UIButton(relative_rect=pygame.Rect(120, 120, 20, 50),
+                                                text="Return to main menu",
+                                                container=self.container,
+                                                manager=gui)
         self.title = graphics.UITextBox("welcome", 
                                         relative_rect=pygame.Rect(20,30,300,400), 
-                                        manager=gui, 
-                                        container=self.container)
+                                        container=self.container,
+                                        manager=gui)
     def processEvents(self, event):
-        return ""
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element == self.foodButton:
+                Events_System.on_screen_switch.invoke("kitchen")
+            if event.ui_element == self.gameButton:
+                Events_System.on_screen_switch.invoke("ballGame")
+            if event.ui_element == self.mainMenuButton:
+                Events_System.on_screen_switch.invoke("mainMenu")
+
+
+class Kitchen(BasicScreen):
+    def __init__(self, gui, pet:Sunny):
+        print("Creating kitchen...")
+        super().__init__(gui, "Kitchen")
+        self.title = graphics.UILabel(relative_rect=pygame.Rect(20,30,200,200), 
+                                      text="Kitchen",
+                                      container=self.container,
+                                      manager=gui)
+        def processEvents(self, event):
+            return ""
 
 class BallGame(BasicScreen):
     def __init__(self, gui, pet:Sunny):
@@ -74,4 +103,5 @@ class BallGame(BasicScreen):
     def hide(self):
         super().hide()
         self.pet.on_energyUpdated.unsubscribe(self.testFunction)
+
 
