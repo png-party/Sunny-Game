@@ -1,4 +1,5 @@
 <Solution>
+  <Folder Name="/Solution Items/" />
   <Project Path="Petgame/Petgame.pyproj" Type="888888a0-9f3d-457c-b088-3a5042f75d52" Id="9a53a063-ccee-412c-aeea-3d3e0ec8b5b5">
     <Build Project="false" />
   </Project>

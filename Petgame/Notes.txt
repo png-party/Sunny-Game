@@ -1,0 +1,9 @@
+==Game design patterns==
+Game architecture:
+https://www.patternsgameprog.com/discover-python-and-patterns-29-software-architecture
+Making singletons:
+https://www.geeksforgeeks.org/python/singleton-pattern-in-python-a-complete-guide/
+
+==Data==
+Loading/saving data as json:
+https://www.geeksforgeeks.org/python/json-with-python/

@@ -22,12 +22,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Event_System.py" />
-    <Compile Include="Events_Sunny.py" />
     <Compile Include="Food.py" />
     <Compile Include="Game_Manager.py" />
     <Compile Include="Minigame.py" />
     <Compile Include="Sunny.py" />
     <Compile Include="ToyCatch.py" />
+    <Compile Include="UI_Manager.py" />
+    <Compile Include="UI_Screens.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ideas.txt" />

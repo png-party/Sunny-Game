@@ -1,4 +1,6 @@
 import json
+import pygame
+import pygame_gui
 from Sunny import Sunny
 class GameManager:
     instance = None #Track if Game object has been created
@@ -16,7 +18,9 @@ class GameManager:
         self.version = 1.0
         saveData = self.readSave()
         self.pet = Sunny(saveData.get("Pet"))
-        
+        #Make the main game surface to draw stuff on
+        self.screen = pygame.display.set_mode((1920, 1080))
+        #Game Manager=> UI manager = >current screen => ui component
         #create GUI
 
     def readSave(self):
@@ -26,6 +30,7 @@ class GameManager:
             return json.load(inFile)
         except FileNotFoundError:
             return {}
+
     def saveGame(self):
         print("Saving game...")
         newSaveData = {
@@ -35,11 +40,12 @@ class GameManager:
         with open("save.json", "w") as newSaveFile:
             json.dump(newSaveData, newSaveFile)
 
-   
+    def startGame(self):
+       pygame.init()
+ 
     def endGame(self):
-
         self.saveGame()
-
+#todo: add main
 gm = GameManager()
 gm.endGame()
         
