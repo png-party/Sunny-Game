@@ -21,7 +21,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Event_System.py" />
+    <Compile Include="Events_System.py" />
+    <Compile Include="Game_Event.py" />
     <Compile Include="Food.py" />
     <Compile Include="Game_Manager.py" />
     <Compile Include="Minigame.py" />

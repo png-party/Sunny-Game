@@ -21,3 +21,6 @@ https://pygame-gui.readthedocs.io/en/latest/pygame_gui.elements.html
 ==Game Engine==
 Gameplay loop:
 https://www.geeksforgeeks.org/python/how-to-set-up-the-game-loop-in-pyggame/
+Delta time:
+https://learn.yorkcs.com/2019/10/15/pygame-basics-an-improved-game-loop/
+https://www.youtube.com/watch?v=v_linpA7uXo

@@ -1,10 +1,13 @@
 import pygame
 import pygame_gui
 import pygame_gui.elements as graphics #I dont want to type the whole thing out
+import Events_System
+from Sunny import Sunny
 
 #A basic parent screen that other types of screens can inherit from
 class BasicScreen:
-    def __init__(self, uiManager, xPosition:float=0, yPosition:float=0, width:float=1080, height:float=1920):
+    def __init__(self, uiManager, name:str="Basic Screen", xPosition:float=0, yPosition:float=0, width:float=1080, height:float=1920):
+        self.name = name
         #make a rectangle for the position and dimensions of the element
         self.rect = pygame.Rect(xPosition, yPosition, width, height)
         #The container that will group all of the elements
@@ -17,24 +20,58 @@ class BasicScreen:
 
 class MainMenu(BasicScreen): #inherit the container,hide, and show from basic screen
     def __init__(self, gui): #gui is the ui manager
-        super().__init__(gui) #pass the ui manager into the parent constructor
+        print("Creating main menu screen...")
+        super().__init__(gui, "Main menu") #pass the ui manager into the parent constructor
+     
+        
         self.startButton = graphics.UIButton(relative_rect=pygame.Rect(20,30,400,300),
-                                            text="start", 
-                                            manager=gui, 
+                                            text="start",
+                                            manager=gui,
                                             container=self.container)
+        self.sentence = graphics.UILabel(relative_rect=pygame.Rect(0,0, 200,300), 
+                                         text="testtest", 
+                                         container=self.container, 
+                                         manager=gui)
+  
+                                           
+    def processEvents(self, event):
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element == self.startButton:
+                print("Start button clicked")
+                Events_System.on_screen_switch.invoke("home")
+    
+
 
 class Home(BasicScreen):
-    def __init__(self, gui):
-        super().__init__(gui)
+    def __init__(self, gui, pet:Sunny):
+        print("Creating home screen...")
+        super().__init__(gui, "Home Screen")
         self.title = graphics.UITextBox("welcome", 
                                         relative_rect=pygame.Rect(20,30,300,400), 
                                         manager=gui, 
                                         container=self.container)
+    def processEvents(self, event):
+        return ""
 
 class BallGame(BasicScreen):
-    def __init__(self, gui):
-        super().__init__(gui)
+    def __init__(self, gui, pet:Sunny):
+        print("Creating ball game screen...")
+        super().__init__(gui, "Ball Game")
+        self.pet = pet
         self.title = graphics.UITextBox("ball game", 
                                         relative_rect=pygame.Rect(20,30,300,400), 
                                         manager=gui, 
                                         container=self.container)
+    def processEvents(self, events):
+        return ""
+    def testFunction(self):
+        print("ball game")
+
+    def show(self):
+        super.show()
+        self.pet.on_energyUpdated.subscribe(self.testFunction)
+
+    def hide(self):
+        super().hide()
+        self.pet.on_energyUpdated.unsubscribe(self.testFunction)
+

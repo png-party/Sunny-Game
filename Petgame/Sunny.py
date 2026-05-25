@@ -1,5 +1,5 @@
 import json
-from Event_System import GameEvent
+from Game_Event import GameEvent
 class Sunny:
     def __init__(self, savedStats:dict=None):
         #if no saved stats exist, use an empty dict
@@ -13,7 +13,7 @@ class Sunny:
         #Create delegates to handle events pertaining to Sunny
         #stat-related events
         self.on_hpMax = GameEvent()
-        self.on_hp_updated = GameEvent()
+        self.on_hpUpdated = GameEvent()
         self.on_hpMin = GameEvent()
 
         self.on_energyMin = GameEvent()
@@ -21,8 +21,10 @@ class Sunny:
         self.on_energyMax = GameEvent()
   
         self.on_happinessMax = GameEvent()
-        self.on_happinessChanged = GameEvent()
+        self.on_happinessUpdated = GameEvent()
         self.on_happinessMin = GameEvent()
+
+        self.on_happinessWin = GameEvent()
 
 
         
@@ -66,7 +68,7 @@ class Sunny:
         if 15 <= newHappiness:
             if newHappiness <= 100:
                 self.happiness = newHappiness
-                self.on_happinessChanged.invoke(self.happiness)
+                self.on_happinessUpdated.invoke(self.happiness)
                 #Check if pet has enough happiness to win (95)
                 if 95 <= self.happiness:
                     self.on_happinessWin.invoke(self.happiness)
