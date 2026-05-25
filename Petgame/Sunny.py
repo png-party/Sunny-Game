@@ -19,7 +19,7 @@ class Sunny:
         self.on_energyMin = GameEvent()
         self.on_energyUpdated = GameEvent()
         self.on_energyMax = GameEvent()
-        self.on_energyDebuff = GameEvent()
+  
         self.on_happinessMax = GameEvent()
         self.on_happinessChanged = GameEvent()
         self.on_happinessMin = GameEvent()
@@ -54,9 +54,6 @@ class Sunny:
                 #Can successfully update energy
                 self.energy = newEnergy
                 self.on_energyUpdated.invoke(self.energy)
-                #Add a debuff if energy is too high
-                if 85 <= newEnergy:
-                    self.on_energyDebuff.invoke(self.energy)
             else:
                 #Lose condition when energy >= 100
                 self.on_energyMax.invoke(self.energy, newEnergy)
