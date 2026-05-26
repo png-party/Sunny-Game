@@ -17,6 +17,10 @@ UI containers:
 https://deepwiki.com/MyreMylar/pygame_gui/2.3-container-system
 Pretty much all of the gui elements:
 https://pygame-gui.readthedocs.io/en/latest/pygame_gui.elements.html
+Themes:
+https://pygame-gui.readthedocs.io/en/latest/theme_guide.html
+Changing the font: 
+https://www.reddit.com/r/pygame/comments/1mh5mc1/i_need_help_with_pygame_gui_default_font/
 
 ==Game Engine==
 Gameplay loop:

@@ -28,12 +28,28 @@
     <Compile Include="Minigame.py" />
     <Compile Include="Sunny.py" />
     <Compile Include="ToyCatch.py" />
+    <Compile Include="UI_Component.py" />
     <Compile Include="UI_Manager.py" />
     <Compile Include="UI_Screens.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Fonts\Comfortaa-Bold.ttf" />
+    <Content Include="Assets\Fonts\Comfortaa-Light.ttf" />
+    <Content Include="Assets\Fonts\Comfortaa-Medium.ttf" />
+    <Content Include="Assets\Fonts\Comfortaa-Regular.ttf" />
+    <Content Include="Assets\Fonts\Comfortaa-SemiBold.ttf" />
+    <Content Include="Assets\Fonts\Quicksand-Bold.ttf" />
+    <Content Include="Assets\Fonts\Quicksand-Light.ttf" />
+    <Content Include="Assets\Fonts\Quicksand-Medium.ttf" />
+    <Content Include="Assets\Fonts\Quicksand-Regular.ttf" />
+    <Content Include="Assets\Fonts\Quicksand-SemiBold.ttf" />
     <Content Include="ideas.txt" />
     <Content Include="Notes.txt" />
+    <Content Include="theme.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Fonts\" />
+    <Folder Include="Assets\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

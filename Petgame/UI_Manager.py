@@ -1,19 +1,24 @@
 import pygame
 import pygame_gui
 import Events_System #get all of the global delegates
-from UI_Screens import MainMenu, Home, BallGame, Kitchen
+from UI_Screens import StatPanel, MainMenu, Home, BallGame, Kitchen
 from Sunny import Sunny
 """
 Acts like a wrapper class for pygame_gui's UIManager object
 This makes it easier to switch screens, work with delegates, etc
-This also loads/creates all of the screens up front when booting up the game 
+-This also loads/creates all of the screens up front when booting up the game 
+-This class owns/uses UI_Screens and UI_Component
+-Game Manager creates an instance of this class
 """
 class UIManager:
     def __init__(self, pet:Sunny):
         print("Creating UI manager..")
-        self.gui = pygame_gui.UIManager((1080, 1920))
-        #Store all of the different game screens in a dict so we can swap to them
-        
+        self.gui = pygame_gui.UIManager((1920, 1080), 'theme.json')
+
+        #Make the main sidebar that displays Sunny's stats
+        self.sunnyStats = StatPanel(self.gui, pet)
+        self.sunnyStats.hide() #Hide the bar bc we're on the main menu
+    
         self.screens = {
             "mainMenu": MainMenu(self.gui),
             "home": Home(self.gui, pet),
@@ -40,8 +45,16 @@ class UIManager:
         print("switching screen to", newScreen)
         self.currentScreen.hide() #hide old screen
         self.currentScreen = self.screens[newScreen] #todo: add input validation
+
+       
+
         self.currentScreen.show() #show new screen
         print(self.currentScreen.name)
+        #Only show Sunny's stats if the current screen needs it 
+        if self.currentScreen.showStatbar:
+            print("showing sunny stats")
+            self.sunnyStats.show()
+        else: self.sunnyStats.hide()
 
     #Only draw the current active screen selected by the ui manager onto the main game surface
     def draw(self, gameSurface:pygame.Surface):

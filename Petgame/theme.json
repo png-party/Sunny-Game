@@ -1,0 +1,78 @@
+{
+  "menubutton": {
+    "colours": {
+      "normal_bg": "#f9b8ca, #f9c8b8,#f9c8b8,90",
+      "hovered_bg": "#f7b2cd, #f4b8b7, #f0abaa,90",
+      "normal_border": "#9bc7fc,#f0eaad,-45",
+      "hovered_border": "#49b6f5,#abe09b,-45",
+      "normal_text": "#d83161",
+      "hovered_text": "#8c2643",
+      "text_shadow": "#8c2926",
+      "shadow": "#f9b8ca"
+    },
+    "font": {
+      "name": "Quicksand",
+      "size": "20",
+      "regular_path": "Assets/Fonts/Quicksand-SemiBold.ttf",
+      "bold_path": "Assets/Fonts/Quicksand-Bold.ttf",
+      "italic_path": "Assets/Fonts/Quicksand-Italic.ttf",
+      "bold_italic_path": "Assets/Fonts/Quicksand-BoldItalic.ttf"
+
+    },
+    "misc": {
+      "shape": "rounded_rectangle",
+      "shape_corner_radius": "10",
+      "border_width": "10",
+      "shadow_width": "3",
+      "text_shadow_size": 1,
+      "text_padding": "20 10"
+    }
+  },
+  "statpanel": {
+    "colours": {
+      "normal_border": "#7dcae5",
+      "dark_bg": "#bde1fc, #d1edf5,#bde1fc, 90"
+    },
+    "misc": {
+      "shape": "rounded_rectangle",
+      "shape_corner_radius": "10",
+      "border_width": "10"
+    }
+  },
+  "statlabel": {
+    "colors": {
+      "normal_text": "#d83161"
+    },
+    "font": {
+      "name": "Comfortaa",
+      "size": "20",
+      "regular_path": "Assets/Fonts/Comfortaa-SemiBold.ttf",
+      "bold_path": "Assets/Fonts/Comfortaa-Bold.ttf",
+      "italic_path": "Assets/Fonts/Comfortaa-Light.ttf",
+      "bold_italic_path": "Assets/Fonts/Comfortaa-Medium.ttf"
+    }
+  },
+  "statbar": {
+    "colours": {
+      "normal_text": "#f9618c",
+      "text_shadow": "#c92251",
+      "normal_border": "#bfa376",
+      "filled_bar": "#fcb58f,#fcf8a9,360",
+      "unfilled_bar": "#fcefde"
+    },
+    "misc": {
+      "shape": "rounded_rectangle",
+      "shape_corner_radius": "2",
+      "border_width":  "2"
+    },
+    "font": {
+      "name": "Comfortaa",
+      "size": "15",
+      "italic": "1",
+      "regular_path": "Assets/Fonts/Comfortaa-SemiBold.ttf",
+      "bold_path": "Assets/Fonts/Comfortaa-Bold.ttf",
+      "italic_path": "Assets/Fonts/Comfortaa-Light.ttf",
+      "bold_italic_path": "Assets/Fonts/Comfortaa-Medium.ttf"
+    }
+  }
+}
