@@ -33,6 +33,7 @@ class UIManager:
         
         #Make the main sidebar that displays Sunny's stats
         self.sunnyStats = StatPanel(self.gui, pet)
+        self.sunnyStats.show()
        # self.sunnyStats.hide() #Hide the bar bc we're on the main menu
 
         #subscribe to the screen-switching event

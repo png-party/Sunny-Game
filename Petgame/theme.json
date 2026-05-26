@@ -78,6 +78,20 @@
       "shadow_width": "3"
     }
   },
+  "foodlabel": {
+    "colors": {
+      "normal_text": "#d83161"
+    },
+    "font": {
+      "name": "Comfortaa",
+      "size": "10",
+      "bold": "1",
+      "regular_path": "Assets/Fonts/Comfortaa-SemiBold.ttf",
+      "bold_path": "Assets/Fonts/Comfortaa-Bold.ttf",
+      "italic_path": "Assets/Fonts/Comfortaa-Light.ttf",
+      "bold_italic_path": "Assets/Fonts/Comfortaa-Medium.ttf"
+    }
+  },
   "statpanel": {
     "colours": {
       "normal_border": "#53b7db",

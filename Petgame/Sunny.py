@@ -14,7 +14,7 @@ class Sunny:
         #Dict with the food name, the food object, and the quantity of that food
         self.foodInventory= {"Dry food": [Food("Dry food", 10, 15, -3), savedStats.get("Dry food", 3)],
                           "Catnip": [Food("Catnip", -6,-5,8), savedStats.get("Catnip", 3)],
-                          "Wet food": [Food("Wet food", 6,9,3), savedStats.get("Wet food"), 2],
+                          "Wet food": [Food("Wet food", 6,9,3), savedStats.get("Wet food", 2)],
                           "Churu paste": [Food("Churu paste", 0,2,6), savedStats.get("Churu paste", 1)]}
 
         #Create delegates to handle events pertaining to Sunny
@@ -103,8 +103,8 @@ class Sunny:
             self.foodInventory[itemName][1] += 1
 
     def Feed(self, itemName:str): #todo: only make it show/process relevant stats
-        if itemName in self.foodInventory:
-            food = self.foodInventory.get(itemName)
+        if itemName in self.foodInventory and self.foodInventory.get(itemName)[1] > 0:
+            food = self.foodInventory.get(itemName)[0]
             
             print("Feeding sunny", food.name)
             self.updateHealth(food.hp)

@@ -43,6 +43,14 @@
     <Content Include="Assets\Fonts\Quicksand-Medium.ttf" />
     <Content Include="Assets\Fonts\Quicksand-Regular.ttf" />
     <Content Include="Assets\Fonts\Quicksand-SemiBold.ttf" />
+    <Content Include="Assets\Images\Catnip.png" />
+    <Content Include="Assets\Images\Catnip fed.png" />
+    <Content Include="Assets\Images\Wet food.png" />
+    <Content Include="Assets\Images\Wet food fed.png" />
+    <Content Include="Assets\Images\Churu paste.png" />
+    <Content Include="Assets\Images\Churu paste fed.png" />
+    <Content Include="Assets\Images\Dry food.png" />
+    <Content Include="Assets\Images\Dry food fed.png" />
     <Content Include="Assets\Images\feedbackward.png" />
     <Content Include="Assets\Images\feedforward.png" />
     <Content Include="Assets\Images\kitchen.png" />

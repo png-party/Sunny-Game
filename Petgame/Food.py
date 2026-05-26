@@ -4,3 +4,5 @@ class Food:
         self.hp = hpGain
         self.energy = energyGain
         self.happiness = happinessGain
+    def __str__(self):
+        return f"{self.name}\nHP:{self.hp}\nEnergy:{self.energy}\nHappiness: {self.happiness}"

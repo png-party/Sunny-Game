@@ -161,9 +161,11 @@ class Kitchen(BasicScreen):
     def __init__(self, gui, pet:Sunny):
         print("Creating kitchen...")
         super().__init__(gui, "Kitchen", showStatbar=True)
+        self.gui = gui #todo: remove this and switch to using a panel to display food
         self.pet = pet
         self.foodList= [] #List for all of the food items in the inventory, gets populated when the screen is shown
-        self.current = 0 #index for the current food item being displayed
+        self.currentFood = 0 #index for the current food item being displayed
+        self.currentFoodEaten = 1 #show the eaten or uneaten version of the food
         self.title = graphics.UILabel(relative_rect=pygame.Rect(20,30,200,200), 
                                       text="Kitchen",
                                       container=self.container,
@@ -212,15 +214,79 @@ class Kitchen(BasicScreen):
         self.foodBackwardIcon = graphics.UIImage(relative_rect=pygame.Rect(330, 800, 50, 50),
                                             image_surface=foodBackIcon,
                                             container=self.container,  
-                                            manager=gui)
+                                            manager=gui) 
+        self.foodLabel = ""
+        self.updateFoodList(gui) #Get the list of food names from the food dictionary and make icons
+        self.foodList[self.currentFood][self.currentFoodEaten].show()
+        self.showFood()
     def show(self):
         super.show()
-        self.foodList = list(self.pet.foodInventory.keys()) #Get the list of food names from the food dictionary
-        self.current = 0 #reset the index to 0 so it starts on the first food item
-    
+        self.currentFood = 0 #reset the index to 0 so it starts on the first food item
+        self.currentFoodEaten = 1
 
+    def updateFoodList(self, gui):
+        for key in self.pet.foodInventory:
+            #Customize the image path based on each key and create a graphic
+            foodIcon = pygame.image.load(f"Assets/Images/{key}.png").convert_alpha()
+            foodIconEaten = pygame.image.load(f"Assets/Images/{key} fed.png").convert_alpha()
+            foodIconUI = graphics.UIImage(relative_rect=pygame.Rect(420,550,200,200),
+                                          image_surface=foodIcon,
+                                          container=self.container,
+                                          manager=gui)
+            foodIconEatenUI = graphics.UIImage(relative_rect=pygame.Rect(420,550,200,200),
+                                          image_surface=foodIconEaten,
+                                          container=self.container,
+                                          manager=gui)
+            #Hide the food graphics we just created
+            foodIconUI.hide()
+            foodIconEatenUI.hide()
+            self.foodList.append([key, foodIconUI, foodIconEatenUI])
+
+    def goBack(self):
+        self.foodList[self.currentFood][self.currentFoodEaten].hide() #hide the old graphic
+        self.currentFoodEaten = 1 #todo: update this 
+        self.currentFood = (self.currentFood - 1) % len(self.foodList)
+        self.foodList[self.currentFood][self.currentFoodEaten].show() #show the new one
+        self.showFood()
+       
+    def goForward(self):
+        self.foodList[self.currentFood][self.currentFoodEaten].hide() #hide the old graphic
+        self.currentFoodEaten = 1 #todo: update this 
+        self.currentFood = (self.currentFood + 1) % len(self.foodList)
+        self.foodList[self.currentFood][self.currentFoodEaten].show() #show the new one
+        self.showFood()
+
+    def eatFood(self):
+        self.pet.Feed(self.foodList[self.currentFood][0])
+        self.foodList[self.currentFood][1].hide() #hide the old graphic
+        self.foodList[self.currentFood][2].show() #show the new one
+
+    def showFood(self):
+        self.foodList[self.currentFood][self.currentFoodEaten].show()
+        foodItem = self.pet.foodInventory.get(self.foodList[self.currentFood][0])
+        foodStats = str(foodItem[0])
+        foodAmount = foodItem[1]
+        self.foodLabel = graphics.UILabel(relative_rect=pygame.Rect(0,0,900,600), 
+                                            text=foodStats,
+                                            object_id="foodlabel",
+                                            container=self.container)
+        self.foodNameLabel = graphics.UILabel(relative_rect=pygame.Rect(300,170,200,100), 
+                                            text=foodItem[0].name,
+                                            object_id="foodlabel",
+                                            container=self.container)
+        self.foodAmountLabel = graphics.UILabel(relative_rect=pygame.Rect(300,180,200,100), 
+                                            text= "Amount: " + str(foodItem[1]),
+                                            object_id="statlabel",
+                                            container=self.container)
+      
     def processEvents(self, event):
-        return ""
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+           if event.ui_element == self.foodForwardButton:
+                self.goForward()
+           if event.ui_element == self.feedButton:
+                self.eatFood()
+           if event.ui_element == self.foodBackButton:
+                self.goBack()
 
 class BallGame(BasicScreen):
     def __init__(self, gui, pet:Sunny):
