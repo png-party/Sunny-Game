@@ -45,7 +45,7 @@ Food items:
 ---Happiness: -3
 
 --Catnip
----HP: -5
+---HP: -6
 ---Energy: -5
 ---Happiness: 8
 
@@ -53,6 +53,11 @@ Food items:
 ---HP: 6
 ---Energy: 9
 ---Happiness: 4
+
+--Churu paste
+---HP: 0
+---Energy: 2
+---Happiness: 6
 
 
 ==Main menu==

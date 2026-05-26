@@ -43,6 +43,11 @@
     <Content Include="Assets\Fonts\Quicksand-Medium.ttf" />
     <Content Include="Assets\Fonts\Quicksand-Regular.ttf" />
     <Content Include="Assets\Fonts\Quicksand-SemiBold.ttf" />
+    <Content Include="Assets\Images\feedbackward.png" />
+    <Content Include="Assets\Images\feedforward.png" />
+    <Content Include="Assets\Images\kitchen.png" />
+    <Content Include="Assets\Images\sunnybackbutton.png" />
+    <Content Include="Assets\Images\sunnyforwardbutton.png" />
     <Content Include="ideas.txt" />
     <Content Include="Notes.txt" />
     <Content Include="theme.json" />
@@ -50,6 +55,7 @@
   <ItemGroup>
     <Folder Include="Assets\Fonts\" />
     <Folder Include="Assets\" />
+    <Folder Include="Assets\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

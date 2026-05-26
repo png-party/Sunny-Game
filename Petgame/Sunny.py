@@ -1,6 +1,6 @@
 import json
 from Game_Event import GameEvent
-import Food
+from Food import Food
 class Sunny:
     def __init__(self, savedStats:dict=None):
         #if no saved stats exist, use an empty dict
@@ -10,6 +10,12 @@ class Sunny:
         self.health = savedStats.get("health", 50)
         self.energy = savedStats.get("energy", 50)
         self.happiness = savedStats.get("happiness", 20)
+
+        #Dict with the food name, the food object, and the quantity of that food
+        self.foodInventory= {"Dry food": [Food("Dry food", 10, 15, -3), savedStats.get("Dry food", 3)],
+                          "Catnip": [Food("Catnip", -6,-5,8), savedStats.get("Catnip", 3)],
+                          "Wet food": [Food("Wet food", 6,9,3), savedStats.get("Wet food"), 2],
+                          "Churu paste": [Food("Churu paste", 0,2,6), savedStats.get("Churu paste", 1)]}
 
         #Create delegates to handle events pertaining to Sunny
         #stat-related events
@@ -27,6 +33,9 @@ class Sunny:
 
         self.on_happinessWin = GameEvent()
 
+        #Food-related events
+        self.on_foodEmpty = GameEvent()
+        self.on_foodRefilled = GameEvent
 
         
     """
@@ -42,8 +51,7 @@ class Sunny:
                 self.on_hpUpdated.invoke(self.health)
                
             else:
-                self.on_hpMax.invoke(self.health, newHP)
-                print("HP too high")
+                self.health = 100
         else:
             self.on_hpMin.invoke(self.health, newHP)
             print("HP too low")
@@ -74,23 +82,46 @@ class Sunny:
                 if 95 <= self.happiness:
                     self.on_happinessWin.invoke(self.happiness)
             else:
+                self.happiness = 100
                 self.on_happinessMax.invoke(self.happiness, newHappiness)
         else:
             self.on_happinessMin.invoke(self.happiness, newHappiness)
         return self.happiness
 
-    def Feed(self, food:Food): #todo: only make it show/process relevant stats
-        print("Feeding sunny", food.name)
-        self.updateHealth(food.hp)
-        self.updateEnergy(food.energy)
-        self.updateHappiness(food.happiness)
+    def removeFood(self, itemName:str):
+        if itemName in self.foodInventory:
+            self.foodInventory[itemName][1] -= 1
+
+            if self.foodInventory[itemName][1] <= 0:
+                self.foodInventory[itemName][1] = 0 #avoid getting negative food
+                self.on_foodEmpty.invoke(itemName) #make the food icon greyed out
+
+    def addFood(self, itemName:str):
+        if itemName in self.foodInventory:
+            if self.foodIneventory[itemName][1] <= 0:
+                self.on_foodRefilled.invoke(itemName) #make the food icon normal again if it was greyed out
+            self.foodInventory[itemName][1] += 1
+
+    def Feed(self, itemName:str): #todo: only make it show/process relevant stats
+        if itemName in self.foodInventory:
+            food = self.foodInventory.get(itemName)
+            
+            print("Feeding sunny", food.name)
+            self.updateHealth(food.hp)
+            self.updateEnergy(food.energy)
+            self.updateHappiness(food.happiness)
+            self.removeFood(itemName)
 
     #Sends Sunny's stats as a dict to the GM class so it can be saved as a json
     def getSave(self):
         return {
             "health": self.health,
             "energy": self.energy,
-            "happiness": self.happiness
+            "happiness": self.happiness,
+            "Dry food": self.foodInventory.get("Dry food")[1],
+            "Catnip": self.foodInventory.get("Catnip")[1],
+            "Wet food": self.foodInventory.get("Wet food")[1],
+            "Churu paste": self.foodInventory.get("Churu paste")[1]
             }
 
   

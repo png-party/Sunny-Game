@@ -1,3 +1,6 @@
+from ctypes import resize
+from tkinter import Button
+from turtle import forward
 import pygame
 import pygame_gui
 import pygame_gui.elements as graphics #I dont want to type the whole thing out
@@ -6,11 +9,7 @@ from Sunny import Sunny
 
 #A basic parent screen that other types of screens can inherit from
 class BasicScreen:
-    def __init__(self, uiManager, 
-                 name:str="Basic Screen", 
-                 xPosition:float=0, yPosition:float=0, 
-                 width:float=1920, height:float=1080,
-                 showStatbar:bool=False):
+    def __init__(self, uiManager, name:str="Basic Screen", xPosition:float=0, yPosition:float=0, width:float=1920, height:float=1080, showStatbar:bool=False):
         self.name = name
         
         #make a rectangle for the position and dimensions of the element
@@ -21,9 +20,12 @@ class BasicScreen:
         self.showStatbar = showStatbar
 
     def hide(self):
+        print("hiding", self.name)
         self.container.hide()
     def show(self):
+        print("showing", self.name)
         self.container.show()
+
 
 #The side bar that displays Sunny's stats
 class StatPanel:
@@ -39,29 +41,29 @@ class StatPanel:
                                             container=self.barPanel,
                                             manager=gui)
         self.hpBar = graphics.UIProgressBar(relative_rect=pygame.Rect(10,95,180,40),
-                                                  object_id="statbar",
-                                                  container=self.barPanel,
-                                                  manager=gui)
+                                            object_id="hpbar",
+                                            container=self.barPanel,
+                                            manager=gui)
         self.energyLabel = graphics.UILabel(relative_rect=pygame.Rect(10,160,200,50), 
                                             text="Energy: ",
                                             object_id="statlabel",
                                             container=self.barPanel,
                                             manager=gui)
         self.energyBar = graphics.UIProgressBar(relative_rect=pygame.Rect(10,200,180,40),
-                                                  object_id="statbar",
-                                                  container=self.barPanel,
-                                                  manager=gui)
+                                            object_id="energybar",
+                                            container=self.barPanel,
+                                            manager=gui)
         self.happinessLabel = graphics.UILabel(relative_rect=pygame.Rect(10,265,200,50),
                                             text="Happiness: ",
                                             object_id="statlabel",
                                             container=self.barPanel,
                                             manager=gui)
         self.happinessBar = graphics.UIProgressBar(relative_rect=pygame.Rect(10,305,180,40),
-                                                  object_id="statbar",
-                                                  container=self.barPanel,
-                                                  manager=gui)
+                                            object_id="happinessbar",
+                                            container=self.barPanel,
+                                            manager=gui)
      
-        #Get the initial stats
+        #Get the initial stats and update the bars to match
         self.hpBar.set_current_progress(self.pet.health)
         self.energyBar.set_current_progress(self.pet.energy)
         self.happinessBar.set_current_progress(self.pet.happiness)
@@ -72,6 +74,7 @@ class StatPanel:
         self.pet.on_hpUpdated.unsubscribe(self.hpBar.set_current_progress)
         self.pet.on_energyUpdated.unsubscribe(self.energyBar.set_current_progress)
         self.pet.on_happinessUpdated.unsubscribe(self.happinessBar.set_current_progress)
+
         self.barPanel.hide()
 
     def show(self):
@@ -80,15 +83,11 @@ class StatPanel:
         self.pet.on_hpUpdated.subscribe(self.hpBar.set_current_progress)
         self.pet.on_energyUpdated.subscribe(self.energyBar.set_current_progress)
         self.pet.on_happinessUpdated.subscribe(self.happinessBar.set_current_progress)
+
         self.barPanel.show()
                                    
     def processEvents(self, event):
-        if event.type == pygame_gui.UI_BUTTON_PRESSED:
-            if event.ui_element == self.hpButton:
-                print("hp button clicked")
-                self.pet.on_hpUpdated.invoke(10)
-    
-
+        return ""
 
 class MainMenu(BasicScreen): #inherit the container,hide, and show from basic screen
     def __init__(self, gui): #gui is the ui manager
@@ -101,11 +100,6 @@ class MainMenu(BasicScreen): #inherit the container,hide, and show from basic sc
                                             object_id="menubutton",
                                             container=self.container,
                                             manager=gui)
-        self.sentence = graphics.UILabel(relative_rect=pygame.Rect(80,314, 453,119), 
-                                         text="testtest", 
-                                         container=self.container, 
-                                         manager=gui)
-  
                                            
     def processEvents(self, event):
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
@@ -144,7 +138,7 @@ class Home(BasicScreen):
                                             container=self.container,
                                             manager=gui)
         self.hpButton = graphics.UIButton(relative_rect=pygame.Rect(10,400,453,119),
-                                            text="start",
+                                            text="hp",
                                             object_id="menubutton",
                                             container=self.container,
                                             manager=gui)
@@ -158,7 +152,7 @@ class Home(BasicScreen):
                 Events_System.on_screen_switch.invoke("mainMenu")
             if event.ui_element == self.settingsButton:
                 str = "todo: fill this in later"
-            if event.ui_element == self.hpButton:
+            if event.ui_element == self.hpButton: #todo: delete this later
                 print("hp button clicked")
                 self.pet.updateHealth(10)
        
@@ -167,10 +161,64 @@ class Kitchen(BasicScreen):
     def __init__(self, gui, pet:Sunny):
         print("Creating kitchen...")
         super().__init__(gui, "Kitchen", showStatbar=True)
+        self.pet = pet
+        self.foodList= [] #List for all of the food items in the inventory, gets populated when the screen is shown
+        self.current = 0 #index for the current food item being displayed
         self.title = graphics.UILabel(relative_rect=pygame.Rect(20,30,200,200), 
                                       text="Kitchen",
                                       container=self.container,
                                       manager=gui)
+        #Adding kitchen background
+        backgroundImage = pygame.image.load("Assets/Images/kitchen.png")
+        self.kitchenBG = graphics.UIImage(relative_rect=pygame.Rect(0,0,1920,1080),
+                                        image_surface=backgroundImage,
+                                        container=self.container,
+                                        manager=gui)       
+        self.kitchenBG.change_layer(0) #make sure the background is behind all the other ui elements
+        
+        self.menuBackButton = graphics.UIButton(relative_rect=pygame.Rect(200, 162, 240, 72),
+                                            text="Return home",
+                                            object_id="menuarrowbutton",
+                                            container=self.container,
+                                            manager=gui)
+        
+        backIcon = pygame.image.load("Assets/Images/sunnybackbutton.png").convert_alpha()
+        self.menuBackButtonIcon = graphics.UIImage(relative_rect=pygame.Rect(215, 178, 40, 40),
+                                           image_surface=backIcon,
+                                           container=self.container,
+                                           manager=gui)
+        #Adding food UI
+        self.foodForwardButton = graphics.UIButton(relative_rect=pygame.Rect(620, 790, 70, 70),
+                                            text="",
+                                            object_id="foodarrowbutton",
+                                            container=self.container,
+                                            manager=gui)
+        foodForwardIcon = pygame.image.load("Assets/Images/feedforward.png").convert_alpha()
+        self.foodForwardIcon = graphics.UIImage(relative_rect=pygame.Rect(633, 800, 50, 50),
+                                             image_surface=foodForwardIcon,
+                                             container=self.container,  
+                                             manager=gui)
+        self.feedButton = graphics.UIButton(relative_rect=pygame.Rect(420, 790, 170, 70),
+                                            text="Feed",
+                                            object_id="foodarrowbutton",
+                                            container=self.container,
+                                            manager=gui)
+        self.foodBackButton = graphics.UIButton(relative_rect=pygame.Rect(320, 790, 70, 70),
+                                            text="",
+                                            object_id="foodarrowbutton",
+                                            container=self.container,
+                                            manager=gui)
+        foodBackIcon = pygame.image.load("Assets/Images/feedbackward.png").convert_alpha()
+        self.foodBackwardIcon = graphics.UIImage(relative_rect=pygame.Rect(330, 800, 50, 50),
+                                            image_surface=foodBackIcon,
+                                            container=self.container,  
+                                            manager=gui)
+    def show(self):
+        super.show()
+        self.foodList = list(self.pet.foodInventory.keys()) #Get the list of food names from the food dictionary
+        self.current = 0 #reset the index to 0 so it starts on the first food item
+    
+
     def processEvents(self, event):
         return ""
 

@@ -15,9 +15,6 @@ class UIManager:
         print("Creating UI manager..")
         self.gui = pygame_gui.UIManager((1920, 1080), 'theme.json')
 
-        #Make the main sidebar that displays Sunny's stats
-        self.sunnyStats = StatPanel(self.gui, pet)
-        self.sunnyStats.hide() #Hide the bar bc we're on the main menu
     
         self.screens = {
             "mainMenu": MainMenu(self.gui),
@@ -26,11 +23,17 @@ class UIManager:
             "ballGame": BallGame(self.gui, pet)
             }
         #Start with the main menu
-        self.currentScreen = self.screens["mainMenu"]
+        self.currentScreen = self.screens["kitchen"]
 
         #Hide the other screens that the player doesn't need yet
         self.screens["home"].hide()
+        self.screens["mainMenu"].hide()
         self.screens["ballGame"].hide()
+
+        
+        #Make the main sidebar that displays Sunny's stats
+        self.sunnyStats = StatPanel(self.gui, pet)
+       # self.sunnyStats.hide() #Hide the bar bc we're on the main menu
 
         #subscribe to the screen-switching event
         Events_System.on_screen_switch.subscribe(self.switchScreen)
