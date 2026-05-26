@@ -33,10 +33,6 @@ class Sunny:
 
         self.on_happinessWin = GameEvent()
 
-        #Food-related events
-        self.on_foodEmpty = GameEvent()
-        self.on_foodRefilled = GameEvent
-
         
     """
     Increments or decrements health by specified amount
@@ -94,12 +90,8 @@ class Sunny:
 
             if self.foodInventory[itemName][1] <= 0:
                 self.foodInventory[itemName][1] = 0 #avoid getting negative food
-                self.on_foodEmpty.invoke(itemName) #make the food icon greyed out
-
     def addFood(self, itemName:str):
         if itemName in self.foodInventory:
-            if self.foodIneventory[itemName][1] <= 0:
-                self.on_foodRefilled.invoke(itemName) #make the food icon normal again if it was greyed out
             self.foodInventory[itemName][1] += 1
 
     def Feed(self, itemName:str): #todo: only make it show/process relevant stats
