@@ -56,11 +56,15 @@ class GameManager:
     def startGame(self):
        pygame.init()
        #Make the main game surface to draw stuff on
-       self.screen = pygame.display.set_mode((1920, 1080))
+       #Getting information about the screen
+       monitorDimensions = pygame.display.Info()
+       screenWidth = monitorDimensions.current_w
+       screenHeight = monitorDimensions.current_h
+       self.screen = pygame.display.set_mode((screenWidth, screenHeight), pygame.FULLSCREEN)
        pygame.display.set_caption("Sunny game")
 
        #Create the wrapped UI manager to handle switching screens
-       self.uim = UIManager(self.pet) #todo: add delegates
+       self.uim = UIManager(self.pet, screenWidth, screenHeight) #todo: add delegates
        #Finally, run the main game loop
        self.run()
        #Game Manager=> UI manager = >current screen => ui component

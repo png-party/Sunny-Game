@@ -11,11 +11,12 @@ This makes it easier to switch screens, work with delegates, etc
 -Game Manager creates an instance of this class
 """
 class UIManager:
-    def __init__(self, pet:Sunny):
+    def __init__(self, pet:Sunny, width:int=1920, height:int=1080):
         print("Creating UI manager..")
-        self.gui = pygame_gui.UIManager((1920, 1080), 'theme.json')
-
-    
+        self.width = width
+        self.height = height
+        self.gui = pygame_gui.UIManager((width, height), 'theme.json')
+        
         self.screens = {
             "mainMenu": MainMenu(self.gui),
             "home": Home(self.gui, pet),
@@ -23,18 +24,18 @@ class UIManager:
             "ballGame": BallGame(self.gui, pet)
             }
         #Start with the main menu
-        self.currentScreen = self.screens["kitchen"]
+        self.currentScreen = self.screens["mainMenu"]
 
         #Hide the other screens that the player doesn't need yet
         self.screens["home"].hide()
-        self.screens["mainMenu"].hide()
+        self.screens["kitchen"].hide()
         self.screens["ballGame"].hide()
 
         
         #Make the main sidebar that displays Sunny's stats
         self.sunnyStats = StatPanel(self.gui, pet)
         self.sunnyStats.show()
-       # self.sunnyStats.hide() #Hide the bar bc we're on the main menu
+        self.sunnyStats.hide() #Hide the bar bc we're on the main menu
 
         #subscribe to the screen-switching event
         Events_System.on_screen_switch.subscribe(self.switchScreen)

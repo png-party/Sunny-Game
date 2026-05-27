@@ -31,7 +31,7 @@ class BasicScreen:
 class StatPanel:
     def __init__(self,gui, pet:Sunny):
         self.pet = pet
-        self.barPanel = graphics.UIPanel(relative_rect=pygame.Rect(1520,162,400,756),
+        self.barPanel = graphics.UIPanel(relative_rect=pygame.Rect(1325,70,400,756),
                                          starting_height=1,
                                          object_id="statpanel",
                                          manager=gui)
@@ -91,12 +91,23 @@ class StatPanel:
 
 class MainMenu(BasicScreen): #inherit the container,hide, and show from basic screen
     def __init__(self, gui): #gui is the ui manager
+        self.gui = gui
         print("Creating main menu screen...")
         super().__init__(gui, "Main menu", showStatbar=False) #pass the ui manager into the parent constructor
-     
-        
-        self.startButton = graphics.UIButton(relative_rect=pygame.Rect(80,108,453,119),
-                                            text="start",
+
+        #Getting the main menu background
+        menuImage = pygame.image.load("Assets/Images/Sunny Game with logo.png")
+        #resizing it to fit the monitor
+        backgroundImage = pygame.transform.smoothscale(menuImage, (self.gui.window_resolution[0], self.gui.window_resolution[1]))
+        #make a ui image element using it 
+        self.menuBG = graphics.UIImage(relative_rect=pygame.Rect(0,0,self.gui.window_resolution[0],self.gui.window_resolution[1]),
+                                            image_surface=backgroundImage,
+                                            container=self.container,
+                                            manager=gui)       
+
+        self.menuBG.change_layer(0) #make sure the background is behind all the other ui elements
+        self.startButton = graphics.UIButton(relative_rect=pygame.Rect(660,530,230,100),
+                                            text="Start Game",
                                             object_id="menubutton",
                                             container=self.container,
                                             manager=gui)
@@ -105,7 +116,7 @@ class MainMenu(BasicScreen): #inherit the container,hide, and show from basic sc
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == self.startButton:
                 print("Start button clicked")
-                Events_System.on_screen_switch.invoke("home")
+                Events_System.on_screen_switch.invoke("kitchen")
     
 
 class Home(BasicScreen):
@@ -167,30 +178,36 @@ class Kitchen(BasicScreen):
         self.foodList= [] #List for all of the food items in the inventory, gets populated when the screen is shown
         self.currentFood = 0 #index for the current food item being displayed
         self.currentFoodEaten = 1 #show the eaten or uneaten version of the food
-        self.title = graphics.UILabel(relative_rect=pygame.Rect(20,30,200,200), 
-                                      text="Kitchen",
-                                      container=self.container,
-                                      manager=gui)
+    
         #Adding kitchen background
         backgroundImage = pygame.image.load("Assets/Images/kitchen.png")
-        self.kitchenBG = graphics.UIImage(relative_rect=pygame.Rect(0,0,1920,1080),
+        self.kitchenBG = graphics.UIImage(relative_rect=pygame.Rect(0,0,self.gui.window_resolution[0],self.gui.window_resolution[1]),
                                             image_surface=backgroundImage,
                                             container=self.container,
                                             manager=gui)       
         self.kitchenBG.change_layer(0) #make sure the background is behind all the other ui elements
         
-        self.menuBackButton = graphics.UIButton(relative_rect=pygame.Rect(200, 162, 240, 72),
+        self.menuBackButton = graphics.UIButton(relative_rect=pygame.Rect(30, 15, 240, 72),
                                             text="Return home",
                                             object_id="menuarrowbutton",
                                             container=self.container,
                                             manager=gui)
         
         backIcon = pygame.image.load("Assets/Images/sunnybackbutton.png").convert_alpha()
-        self.menuBackButtonIcon = graphics.UIImage(relative_rect=pygame.Rect(215, 178, 40, 40),
+        self.menuBackButtonIcon = graphics.UIImage(relative_rect=pygame.Rect(45, 30, 40, 40),
                                            image_surface=backIcon,
                                            container=self.container,
                                            manager=gui)
-        #Adding food UI
+
+        #Making a light blue rectangle to sit behind the UI
+        feedMenuBG = pygame.Surface((410, 350), pygame.SRCALPHA)
+        feedMenuBG.fill((173, 216, 230, 150)) 
+        self.menuBG = graphics.UIImage(relative_rect=pygame.Rect(300,530,410,350),
+                                        image_surface = feedMenuBG,
+                                        container=self.container,
+                                        manager=gui)
+        #Adding the buttons to click through the foods
+
         self.foodForwardButton = graphics.UIButton(relative_rect=pygame.Rect(620, 790, 70, 70),
                                             text="",
                                             object_id="foodarrowbutton",
@@ -220,14 +237,28 @@ class Kitchen(BasicScreen):
                                             container=self.container,  
                                             manager=gui) 
         self.foodLabel = ""
+        #Adding sunny into the game
+        sunnypicture = pygame.image.load("Assets/Images/sunny sit.png").convert_alpha()
+        self.sunnyIcon = graphics.UIImage(relative_rect=pygame.Rect(750,230,600,700),
+                                           image_surface=sunnypicture,
+                                           container=self.container,
+                                           manager=gui)
         self.updateFoodList(gui) #Get the list of food names from the food dictionary and make icons
-        self.foodList[self.currentFood][self.currentFoodEaten].show()
-        self.showFood()
+   
 
     def show(self):
-        super.show()
+        self.container.show()
+        self.showFood()
+        
+        for item in self.foodList:
+            item[1].hide()
+            item[2].hide()
+            item[3].hide()
+
         self.currentFood = 0 #reset the index to 0 so it starts on the first food item
         self.currentFoodEaten = 1
+
+        self.showFood()
 
     def updateFoodList(self, gui):
         for key in self.pet.foodInventory:
@@ -261,7 +292,7 @@ class Kitchen(BasicScreen):
         self.foodList[self.currentFood][self.currentFoodEaten].hide() #hide the old graphic
         self.currentFoodEaten = 1 #todo: update this 
         self.currentFood = (self.currentFood - 1) % len(self.foodList)
-        self.foodList[self.currentFood][self.currentFoodEaten].show() #show the new one
+   
         print("Backward:", self.currentFood,":",self.currentFoodEaten, ", ", self.foodList[self.currentFood][0])
         self.showFood()
        
@@ -270,28 +301,39 @@ class Kitchen(BasicScreen):
         self.currentFoodEaten = 1 #todo: update this 
         self.currentFood = (self.currentFood + 1) % len(self.foodList)
         print("Forward:", self.currentFood,":",self.currentFoodEaten, ", ", self.foodList[self.currentFood][0])
-        self.foodList[self.currentFood][self.currentFoodEaten].show() #show the new one
+
         self.showFood()
 
     def eatFood(self):
-        if self.currentFoodEaten != 3:
-            #self.foodList[self.currentFood][1].show() #make sure we're showing the uneaten version if we called this function earlier
-            self.pet.Feed(self.foodList[self.currentFood][0])
-            self.foodList[self.currentFood][1].hide() #hide the old uneaten graphic
-            self.currentFoodEaten = 2
+        foodName = self.foodList[self.currentFood][0]
+        foodItem = self.pet.foodInventory.get(foodName)
+        foodAmount = foodItem[1]
+        if foodAmount > 0 and self.currentFoodEaten != 3:
+            self.pet.Feed(foodName)
+            self.foodList[self.currentFood][self.currentFoodEaten].hide() #hide the old uneaten graphic
+            self.currentFoodEaten = 2 #show the eaten version
             print("Eating:", self.currentFood,":",self.currentFoodEaten, ", ", self.foodList[self.currentFood][0])
-        else:  print("Could not eat:", self.currentFood,":",self.currentFoodEaten, ", ", self.foodList[self.currentFood][0])
+        
+        else:  
+            print("Could not eat:", self.currentFood,":",self.currentFoodEaten, ", ", self.foodList[self.currentFood][0])
+            self.currentFoodEaten = 3 #Make sure we're showing the grey version
         self.showFood()
-        #self.foodList[self.currentFood][self.currentFoodEaten].show() #show the new one
 
     def showFood(self):
-    
+        
         foodItem = self.pet.foodInventory.get(self.foodList[self.currentFood][0])
         foodStats = str(foodItem[0])
         foodAmount = foodItem[1]
         if foodAmount <= 0: self.currentFoodEaten = 3 #show the greyscale version of the food if we ran out
+        #hide all previous potential versions
+        self.foodList[self.currentFood][1].hide() #normal
+        self.foodList[self.currentFood][2].hide() #eaten/fed
+        self.foodList[self.currentFood][3].hide() #greyed out
+
         print("Showing:", self.currentFood,":",self.currentFoodEaten, ", ", self.foodList[self.currentFood][0])
+
         self.foodList[self.currentFood][self.currentFoodEaten].show()
+        """
         self.foodLabel = graphics.UILabel(relative_rect=pygame.Rect(0,0,900,600), 
                                             text=foodStats,
                                             object_id="foodlabel",
@@ -306,6 +348,7 @@ class Kitchen(BasicScreen):
                                             text= "Amount: " + str(foodItem[1]),
                                             object_id="statlabel",
                                             container=self.container)
+        """
       
     def processEvents(self, event):
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
@@ -315,6 +358,8 @@ class Kitchen(BasicScreen):
                 self.eatFood()
            if event.ui_element == self.foodBackButton:
                 self.goBack()
+           if event.ui_element == self.menuBackButton:
+                Events_System.on_screen_switch.invoke("mainMenu")
 
 class BallGame(BasicScreen):
     def __init__(self, gui, pet:Sunny):

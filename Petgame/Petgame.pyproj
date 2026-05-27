@@ -45,6 +45,10 @@
     <Content Include="Assets\Fonts\Quicksand-SemiBold.ttf" />
     <Content Include="Assets\Images\Catnip.png" />
     <Content Include="Assets\Images\Catnip fed.png" />
+    <Content Include="Assets\Images\mainmenubg.png" />
+    <Content Include="Assets\Images\Sunny Game with logo.png" />
+    <Content Include="Assets\Images\sunny sit.png" />
+    <Content Include="Assets\Images\sunnyeat.png" />
     <Content Include="Assets\Images\Wet food.png" />
     <Content Include="Assets\Images\Wet food fed.png" />
     <Content Include="Assets\Images\Churu paste.png" />
