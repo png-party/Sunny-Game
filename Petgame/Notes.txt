@@ -35,8 +35,3 @@ https://www.geeksforgeeks.org/python/pygame-input-handling/
 Getting GUI events:
 https://pygame-gui.readthedocs.io/en/v_069/events.html
 
-==TODO==
--Make food items grey scaled when empty
--Fix text overlapping
---Switch to textbox instead of label?
--Switch to using a panel for the food stats

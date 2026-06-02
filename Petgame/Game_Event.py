@@ -17,7 +17,7 @@ class GameEvent:
     #orderedArguments: captures function arguments based on their position
     #keywordArguments: captures function arguments based on their variable names
     #use * and ** to actually collect the arguments
-    def invoke(self, *orderedArguements, **keywordArguments):
+    def invoke(self, *orderedArguments, **keywordArguments):
         #Call every function subscribed when the event actually occurs
         for function in self.subscribers:
-            function(*orderedArguements, **keywordArguments)
+            function(*orderedArguments, **keywordArguments)
