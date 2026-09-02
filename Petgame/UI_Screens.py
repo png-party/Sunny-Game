@@ -243,7 +243,7 @@ class Kitchen(BasicScreen):
 
         #foodStats, foodItem[0].name, amount + str(fooditem[1]) 1325
     
-        self.foodStatsText = graphics.UITextBox(relative_rect=pygame.Rect(1350, 450,180,650), 
+        self.foodStatsText = graphics.UITextBox(relative_rect=pygame.Rect(1345, 450,185,650), 
                                             html_text="Food Name",
                                             wrap_to_height=True,
                                             object_id="foodlabel",
