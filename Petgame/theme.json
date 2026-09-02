@@ -80,16 +80,28 @@
   },
   "foodlabel": {
     "colors": {
-      "normal_text": "#d83161"
+      "normal_text": "#d83161",
+      "dark_bg": "#f9b8ca, #f9c8b8,#f9c8b8,90",
+      "hovered_bg": "#f7b2cd, #f4b8b7, #f0abaa,90",
+      "normal_border": "#aa784e",
+      "hovered_border": "#49b6f5,#abe09b,-45",
+      "hovered_text": "#8c2643",
+      "shadow": "#f9b8ca"
     },
     "font": {
       "name": "Comfortaa",
-      "size": "10",
+      "size": "15",
       "bold": "1",
       "regular_path": "Assets/Fonts/Comfortaa-SemiBold.ttf",
       "bold_path": "Assets/Fonts/Comfortaa-Bold.ttf",
       "italic_path": "Assets/Fonts/Comfortaa-Light.ttf",
       "bold_italic_path": "Assets/Fonts/Comfortaa-Medium.ttf"
+    },
+    "misc": {
+      "border_width": 11,
+      "shadow_width":  5,
+      "shape": "rounded_rectangle",
+      "shape_corner_radius":  0.5
     }
   },
   "statpanel": {

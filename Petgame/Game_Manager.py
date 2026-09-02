@@ -61,6 +61,7 @@ class GameManager:
        screenWidth = monitorDimensions.current_w
        screenHeight = monitorDimensions.current_h
        self.screen = pygame.display.set_mode((screenWidth, screenHeight), pygame.FULLSCREEN)
+       print("Actual", self.screen.get_size())
        pygame.display.set_caption("Sunny game")
 
        #Create the wrapped UI manager to handle switching screens

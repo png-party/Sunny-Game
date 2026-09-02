@@ -1,6 +1,3 @@
-from ctypes import resize
-from tkinter import Button
-from turtle import forward
 import pygame
 import pygame_gui
 import pygame_gui.elements as graphics #I dont want to type the whole thing out
@@ -236,7 +233,6 @@ class Kitchen(BasicScreen):
                                             image_surface=foodBackIcon,
                                             container=self.container,  
                                             manager=gui) 
-        self.foodLabel = ""
         #Adding sunny into the game
         sunnypicture = pygame.image.load("Assets/Images/sunny sit.png").convert_alpha()
         self.sunnyIcon = graphics.UIImage(relative_rect=pygame.Rect(750,230,600,700),
@@ -244,6 +240,15 @@ class Kitchen(BasicScreen):
                                            container=self.container,
                                            manager=gui)
         self.updateFoodList(gui) #Get the list of food names from the food dictionary and make icons
+
+        #foodStats, foodItem[0].name, amount + str(fooditem[1]) 1325
+    
+        self.foodStatsText = graphics.UITextBox(relative_rect=pygame.Rect(1350, 450,180,650), 
+                                            html_text="Food Name",
+                                            wrap_to_height=True,
+                                            object_id="foodlabel",
+                                            container=self.container)
+
    
 
     def show(self):
@@ -261,7 +266,7 @@ class Kitchen(BasicScreen):
         self.showFood()
 
     def updateFoodList(self, gui):
-        for key in self.pet.foodInventory:
+        for key in self.pet.foodInventory: #key is the food name
             #Customize the image path based on each key and create a graphic
             foodIcon = pygame.image.load(f"Assets/Images/{key}.png")
             foodIconEaten = pygame.image.load(f"Assets/Images/{key} fed.png").convert_alpha()
@@ -324,6 +329,9 @@ class Kitchen(BasicScreen):
         foodItem = self.pet.foodInventory.get(self.foodList[self.currentFood][0])
         foodStats = str(foodItem[0])
         foodAmount = foodItem[1]
+     
+        self.foodStatsText.set_text(foodStats)
+        self.foodStatsText.append_html_text("\nAmount: " + str(foodAmount))
         if foodAmount <= 0: self.currentFoodEaten = 3 #show the greyscale version of the food if we ran out
         #hide all previous potential versions
         self.foodList[self.currentFood][1].hide() #normal
@@ -333,23 +341,10 @@ class Kitchen(BasicScreen):
         print("Showing:", self.currentFood,":",self.currentFoodEaten, ", ", self.foodList[self.currentFood][0])
 
         self.foodList[self.currentFood][self.currentFoodEaten].show()
-        """
-        self.foodLabel = graphics.UILabel(relative_rect=pygame.Rect(0,0,900,600), 
-                                            text=foodStats,
-                                            object_id="foodlabel",
-                                            container=self.container)
+        
+ 
 
-        self.foodNameLabel = graphics.UILabel(relative_rect=pygame.Rect(300,170,200,100), 
-                                            text=foodItem[0].name,
-                                            object_id="foodlabel",
-                                            container=self.container)
-
-        self.foodAmountLabel = graphics.UILabel(relative_rect=pygame.Rect(300,180,200,100), 
-                                            text= "Amount: " + str(foodItem[1]),
-                                            object_id="statlabel",
-                                            container=self.container)
-        """
-      
+        
     def processEvents(self, event):
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
            if event.ui_element == self.foodForwardButton:
